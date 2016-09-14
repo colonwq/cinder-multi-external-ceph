@@ -1,0 +1,24 @@
+yum -q -y install ceph-common
+systemctl restart openstack-cinder-volume
+openstack volume type create BACKEND_ceph1
+openstack volume type list
+openstack volume type set --property volume_backend_name=BACKEND_ceph1 BACKEND_ceph1
+openstack volume type show BACKEND_ceph1
+openstack help volume clreate
+openstack help volume create
+openstack volume create --size 1 --type BACKEND_ceph1 test
+vi /etc/cinder/cinder.conf 
+systemctl restart openstack-cinder-volume
+openstack volume type create BACKEND_ceph2
+openstack volume type set --property volume_backend_name=BACKEND_ceph2 BACKEND_ceph2
+openstack volume type list
+openstack volume type show BACKEND_ceph2
+openstack volume create --size 1 --type BACKEND_ceph2 test2
+openstack volume service list
+openstack voluem show BACKEND_ceph1
+openstack volume show BACKEND_ceph1
+openstack volume type show BACKEND_ceph1
+openstck volume list
+openstack volume list
+openstack volume show test
+openstack volume show test2

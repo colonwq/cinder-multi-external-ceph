@@ -1,0 +1,42 @@
+--- /etc/cinder/cinder.conf.ORIG	2016-09-13 23:53:22.154000000 -0400
++++ /etc/cinder/cinder.conf	2016-09-13 23:53:24.096000000 -0400
+@@ -740,7 +740,7 @@
+ # A list of backend names to use. These backend names should be backed by a
+ # unique [CONFIG] group with its options (list value)
+ #enabled_backends = <None>
+-enabled_backends = BACKEND_1
++enabled_backends = BACKEND_1,BACKEND_ceph1,BACKEND_ceph2
+ 
+ # Whether snapshots count against gigabyte quota (boolean value)
+ #no_snapshot_gb_quota = false
+@@ -4220,3 +4220,30 @@
+ iscsi_ip_address=127.0.0.1
+ volume_backend_name=BACKEND_1
+ iscsi_helper=lioadm
++
++[BACKEND_ceph1]
++volume_driver=cinder.volume.drivers.rbd.RBDDriver
++#rbd_secret_uuid is used by libvirt
++rbd_secret_uuid=d0439829-7970-421b-a25e-37b1c3a97d7f
++#rbd_ceph_conf points to the configuration file copied above
++rbd_ceph_conf=/etc/ceph/ceph-ceph1.conf
++#rbd_pool is the OSD pool created for this service
++rbd_pool=cinder1
++backend_host=rbd:cinder1
++#rbd_user is the client key create in the ceph cluster.
++rbd_user=ceph1
++volume_backend_name=BACKEND_ceph1
++
++[BACKEND_ceph2]
++volume_driver=cinder.volume.drivers.rbd.RBDDriver
++#rbd_secret_uuid is used by libvirt
++rbd_secret_uuid=c30a17f9-9456-44ef-b1e6-c85d3a624ee7
++#rbd_ceph_conf points to the configuration file copied above
++rbd_ceph_conf=/etc/ceph/ceph-ceph2.conf
++#rbd_pool is the OSD pool created for this service
++rbd_pool=cinder2
++backend_host=rbd:cinder2
++#rbd_user is the client key create in the ceph cluster.
++rbd_user=ceph2
++volume_backend_name=BACKEND_ceph2
++

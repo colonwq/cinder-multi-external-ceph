@@ -1,0 +1,5 @@
+ceph osd pool create cinder1 32
+ceph auth get-or-create clinet.ceph1 mon 'allow r' osd 'allow class-read object_prefix rbd_children, allow rwx pool=cinder1, allow rwx pool=vms1, allow rx pool=iamges1' | tee /etc/ceph/ceph.client.ceph1.keyring
+scp /etc/ceph/ceph.conf root@clone:/etc/ceph/ceph-ceph1.conf
+scp /etc/ceph/ceph.client.ceph1.keyring root@clone:/etc/ceph
+rados ls -p cinder1
